@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
+
 import styled from '@emotion/styled';
+
+// import FeatureCompList, { FEATURES } from './child';
 
 type Props = {};
 
 const FixedContainer = styled.div`
-  width: 100%;
   position: fixed;
   border: 1px solid black;
   bottom: 0;
+  right: 0;
 `;
 
 const StyledDiv = styled.div`
@@ -28,13 +31,36 @@ const StyledDiv = styled.div`
 `;
 
 function Presenter({}: Props) {
-  const test = new Array(5).fill((index: number) => index);
+  const [number, setNumber] = useState([1]);
+
+  let container: any;
+
   return (
     <>
-      {/* <StyledDiv /> */}
-      <FixedContainer>
-        {test.map(() => {
-          return <StyledDiv>test</StyledDiv>;
+      <button
+        onClick={() => {
+          setNumber((prev) => {
+            const seq = prev.length + 1;
+            const test = prev.concat(seq);
+            return test;
+          });
+        }}
+      >
+        click
+      </button>
+      <FixedContainer ref={(ref) => (container = ref)}>
+        {number.map((_, index: number) => {
+          return (
+            <StyledDiv
+              key={`${index}`}
+              onClick={() => {
+                number.splice(index, 1);
+                setNumber([...number]);
+              }}
+            >
+              test
+            </StyledDiv>
+          );
         })}
       </FixedContainer>
     </>
